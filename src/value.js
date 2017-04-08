@@ -4,6 +4,6 @@ export default {
     logo: 'Bungee Inline'
   },
   color:{
-    text: '#77BFA3'
+    text: '#009688'
   }
 }

@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import { centerGameObjects, initText } from '../utils'
-
+import Item from '../sprites/Item'
 export default class extends Phaser.State {
   init () {
   }
@@ -10,10 +10,10 @@ export default class extends Phaser.State {
     this.loading.animations.add('walk');
     this.loading.animations.play('walk', 50, true);
     
-    this.logo = this.add.text(this.world.centerX, this.world.centerY - 30, this.game.lang.GAME)
+    this.title = this.add.text(this.world.centerX, this.world.centerY - 30, this.game.lang.GAME)
     this.loadingText = this.add.text(this.world.centerX, this.world.centerY + 60, this.game.lang.GAME_LOADING)
     initText([{
-      context: this.logo,
+      context: this.title,
       font: this.game.value.font.logo,
       fontSize: 40,
       fill: this.game.value.color.text,
@@ -29,12 +29,23 @@ export default class extends Phaser.State {
     //
     // load your assets
     //
-    this.load.image('mushroom', 'assets/images/mushroom2.png')
-    this.load.json('test', 'http://monzj-minhlv.rhcloud.com/Food?limit=4000')
+    this.load.image('item', 'assets/images/items/coin.png')
+    this.load.spritesheet('playBtn', 'assets/images/buttons/play.png', 82, 28);
   }
 
   create () {
-  // this.state.start('Game')
+    // this.mushroom = new Item({
+    //   game: this,
+    //   x: this.world.centerX,
+    //   y: this.world.centerY,
+    //   asset: 'mushroom'
+    // })
+
+    // this.game.add.existing(this.mushroom)
+    this.state.start('Menu')
+  }
+  render(){
+
   }
 
 }
