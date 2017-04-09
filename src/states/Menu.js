@@ -1,6 +1,5 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import Item from '../sprites/Item'
 import { centerGameObjects, initText } from '../utils'
 export default class extends Phaser.State {
   init () {}
@@ -25,8 +24,18 @@ export default class extends Phaser.State {
     //   this.game.debug.spriteInfo(this.mushroom, 32, 32)
     // }
   }
+  initData () {
+    this.game.data = {
+      amount: 4,
+      heaps: new Array
+    }
+    for (let i = 0; i < this.game.data.amount; i++){
+      var rd = this.game.rnd.integerInRange(2, 10)
+      this.game.data.heaps.push(rd)
+    }
+  }
   _pressPlay () {
-    this.game.data = "abc"
+    this.initData()
     this.state.start('Game')
 
   }
