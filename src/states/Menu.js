@@ -23,11 +23,17 @@ export default class extends Phaser.State {
     // if (__DEV__) {
     //   this.game.debug.spriteInfo(this.mushroom, 32, 32)
     // }
+//    this._pressPlay()
   }
   initData () {
     this.game.data = {
-      amount: 4,
-      heaps: new Array
+      amount: 4, // max = 4 heap
+      heaps: new Array,
+      playing: 0,
+      rule: {
+        desc: "Mỗi lần bạn được lấy 2 Item bất kỳ trên 1 đống!",
+        func: "rule1"
+      }
     }
     for (let i = 0; i < this.game.data.amount; i++){
       var rd = this.game.rnd.integerInRange(2, 10)

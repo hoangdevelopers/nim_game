@@ -12,4 +12,13 @@ export const initText = (objects) => {
     text.context.anchor.setTo(0.5)
   })
 }
+export const initTextFloatLeft = (objects) => {
+    objects.forEach(function (text) {
+    text.context.font = text.font
+    text.context.fontSize = text.fontSize
+    text.context.fill = text.fill
+    text.context.smoothed = text.smoothed 
+    text.context.anchor.setTo(0)
+  })
+}
 

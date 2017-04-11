@@ -15,6 +15,7 @@ export default class extends Phaser.State {
       },
       active: this.fontsLoaded
     })
+    
     let text = this.add.text(this.world.centerX, this.world.centerY, 'loading fonts', { font: '16px Arial', fill: '#dddddd', align: 'center' })
     text.anchor.setTo(0.5, 0.5)
 
@@ -22,9 +23,10 @@ export default class extends Phaser.State {
   }
 
   render () {
-    if (this.fontsReady) {
-      this.state.start('Splash')
-    }
+    this.state.start('Splash')
+    // if (this.fontsReady) {
+    //   this.state.start('Splash')
+    // }
   }
 
   fontsLoaded () {
