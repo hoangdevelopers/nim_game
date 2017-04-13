@@ -1,13 +1,10 @@
 export default {
-  // font: {
-  //   primary: 'Orbitron',
-  //   logo: 'Bungee Inline'
-  // },
   font: {
-    primary: 'Arial',
-    logo: 'Arial'
+    primary: 'Orbitron',
+    logo: 'Bungee Inline'
   },
   color:{
-    text: '#009688'
+    text: '#009688',
+    info: '#FFA500'
   }
 }

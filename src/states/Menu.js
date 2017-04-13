@@ -1,6 +1,8 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import { centerGameObjects, initText } from '../utils'
+import ruleFunc from '../gameplay/rules'
+import scriptAI from '../gameplay/scriptAI'
 export default class extends Phaser.State {
   init () {}
   preload () {
@@ -27,16 +29,19 @@ export default class extends Phaser.State {
   }
   initData () {
     this.game.data = {
-      amount: 4, // max = 4 heap
+      amount: 3, // max = 4 heap
       heaps: new Array,
       playing: 0,
+      logs: new Array(),
       rule: {
-        desc: "Mỗi lần bạn được lấy 2 Item bất kỳ trên 1 đống!",
-        func: "rule1"
-      }
+        desc: "Mỗi lượt bạn được lấy 2 Item bất kỳ trên 1 đống!",
+        func: ruleFunc.nim1
+      },
+      scriptAI: scriptAI.script1,
+      finish: 0
     }
     for (let i = 0; i < this.game.data.amount; i++){
-      var rd = this.game.rnd.integerInRange(2, 10)
+      var rd = this.game.rnd.integerInRange(2, 8)
       this.game.data.heaps.push(rd)
     }
   }

@@ -6,8 +6,6 @@ export default class extends Phaser.State {
   }
 
   preload () {
-    this.add.text(100, 100, "test")
-    console.log("test")
     this.loading = this.add.sprite(this.world.centerX - 20, this.world.centerY, 'mummy_spritesheet');
     this.loading.animations.add('walk');
     this.loading.animations.play('walk', 50, true);
