@@ -1,24 +1,21 @@
 export default class Player {
  
-  constructor ({ name, type , state}) {
+  constructor ({ name, state}) {
     this.name = name
-    this.type = type
     this.state = state
     this.status = {
         do: Player.status.STOP
     }
   }
   _onPressItem(location){
-    this.state.notifi(this.state.game.lang.ILLEGAL)
-  }
-  _onPressCandy(){
-      
+    this.state.notifi("Không hợp lệ")
   }
   getName(){
       return this.name;
   }
   playing(){
       this.status.do = Player.status.PLAYING
+      this.state.view.playerName.setText(this.state.getCurrentPlayer().getName())
   }
   stop(){
       this.status.do = Player.status.STOP
@@ -28,6 +25,7 @@ export default class Player {
       this.state.endTurn()
   }
   selectItem(location){
+    if(!location) return false
     var rule = this.state.game.data.rule.func;
     // Kiem tra nguoi choi co dung luot khong
     if (this.state.getCurrentPlayer().getName() != this.getName()){
@@ -45,10 +43,11 @@ export default class Player {
     // status === PLAYING
     // Kiem tra luat choi
     else if (! rule(this.state.game.data, location)){
-      this.state.notifi(this.state.game.lang.ILLEGAL)
+      this.state.notifi("Không hợp lệ")
       return false
     }
     this.state.pickItem(location)
+    if(this.type) this.state.game.client.socket.emit("client_select_item", location)
     return true
   }
 }

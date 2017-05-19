@@ -1,13 +1,13 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import { centerGameObjects, initText } from '../utils'
-import ruleFunc from '../gameplay/rules'
-import scriptAI from '../gameplay/scriptAI'
+
 export default class extends Phaser.State {
   init () {}
   preload () {
-    this.playBtn = this.add.button(this.world.centerX, this.world.centerY + 20, 'playBtn', this._pressPlay, this, 1, 0, 2);
-    this.titleText = this.add.text(this.world.centerX, this.world.centerY - 30, this.game.lang.GAME)
+    this.playWithComputerBtn = this.add.button(this.world.centerX, this.world.centerY + 20, 'playWithComputerBtn', this._pressPlayWithComputer, this, 1, 0, 2);
+    this.playWithHumanBtn = this.add.button(this.world.centerX, this.world.centerY + 60, 'playWithHumanBtn', this._pressPlayWithHuman, this, 1, 0, 2);
+    this.titleText = this.add.text(this.world.centerX, this.world.centerY - 30, this.game.value.game)
     initText([{
       context: this.titleText,
       font: this.game.value.font.logo,
@@ -15,39 +15,23 @@ export default class extends Phaser.State {
       fill: this.game.value.color.text,
       smoothed: false
     }])
-    centerGameObjects([this.playBtn])
+    centerGameObjects([this.playWithComputerBtn, this.playWithHumanBtn])
   }
 
   create () {
   }
 
   render () {
-    // if (__DEV__) {
-    //   this.game.debug.spriteInfo(this.mushroom, 32, 32)
-    // }
-//    this._pressPlay()
   }
-  initData () {
-    this.game.data = {
-      amount: 3, // max = 4 heap
-      heaps: new Array,
-      playing: 0,
-      logs: new Array(),
-      rule: {
-        desc: "Mỗi lượt bạn được lấy 2 Item bất kỳ trên 1 đống!",
-        func: ruleFunc.nim1
-      },
-      scriptAI: scriptAI.script1,
-      finish: 0
-    }
-    for (let i = 0; i < this.game.data.amount; i++){
-      var rd = this.game.rnd.integerInRange(2, 8)
-      this.game.data.heaps.push(rd)
-    }
-  }
-  _pressPlay () {
-    this.initData()
-    this.state.start('Game')
+  
+  _pressPlayWithComputer () {
+    this.game.data.type = "PLAY_WITH_COMPUTER"
+    this.state.start('InitGame')
 
+  }
+  _pressPlayWithHuman(){
+    this.game.data.type = "PLAY_WITH_HUMAN"
+    this.game.client.initGame();
+    this.state.start('InitGame')
   }
 }

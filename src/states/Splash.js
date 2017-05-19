@@ -10,8 +10,8 @@ export default class extends Phaser.State {
     this.loading.animations.add('walk');
     this.loading.animations.play('walk', 50, true);
     
-    this.title = this.add.text(this.world.centerX, this.world.centerY - 30, this.game.lang.GAME)
-    this.loadingText = this.add.text(this.world.centerX, this.world.centerY + 60, this.game.lang.GAME_LOADING)
+    this.title = this.add.text(this.world.centerX, this.world.centerY - 30, this.game.value.game)
+    this.loadingText = this.add.text(this.world.centerX, this.world.centerY + 60, "Loading..")
     initText([{
       context: this.title,
       font: this.game.value.font.logo,
@@ -32,6 +32,8 @@ export default class extends Phaser.State {
     this.load.image('gameFrame', 'assets/images/frames/1.png')
     this.load.image('item', 'assets/images/items/coin36x36.png')
     this.load.spritesheet('playBtn', 'assets/images/buttons/play.png', 82, 28);
+    this.load.spritesheet('playWithComputerBtn', 'assets/images/buttons/play-with-computer.png', 140, 30);
+    this.load.spritesheet('playWithHumanBtn', 'assets/images/buttons/play-with-human.png', 140, 30);
   }
 
   create () {

@@ -7,17 +7,18 @@ export default {
         }
         items.forEach(function(element) {
             if (  element.visible ){
-                if( location === null ) {
+                if( location.heap === null ) {
                     location.heap = element.location.heap
                     location.index = element.location.index
                 }
                 else if ( element.location.index > location.index ) { 
                     location.index = element.location.index
-                    location.heap = element.location.heap 
+                    location.heap = element.location.heap
+                    
                 }
             }
         }, this)
-        console.log(location)
+        if(location.heap == null) return false
         return location
     }
 }

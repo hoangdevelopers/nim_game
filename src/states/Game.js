@@ -1,8 +1,7 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
 import Item from '../sprites/Item'
-import Human from '../player/Human'
-import AI from '../player/AI'
+import {Human, AI, Server} from '../player'
 import { centerGameObjects, initText, initTextFloatLeft } from '../utils'
 export default class extends Phaser.State {
   init () {
@@ -23,8 +22,9 @@ export default class extends Phaser.State {
   }
 
   create () {
-    this.initPlayer()
     this.drawFrame()
+    this.initPlayer()
+    
     this.game.data.heaps.forEach((element, index)=>{
       this.drawHeap (element, index)
     })
@@ -36,6 +36,10 @@ export default class extends Phaser.State {
   
   update () {
     if ( this.isWin() && !this.game.data.finish) {
+      
+      var notifiString = this.getCurrentPlayer().getName() + " thắng!"
+      this.notifi(notifiString)
+      this.game.data.logs.push(notifiString)
       this.game.data.finish = 1
       this.state.start('Info')
       
@@ -43,11 +47,12 @@ export default class extends Phaser.State {
     if (this.getCurrentPlayer().getName() === 'Computer') this.getCurrentPlayer()._onPressItem()
   }
   initPlayer () {
-    var human = new Human({name: 'Human', state: this}),
-    ai = new AI({name: 'Computer', state: this})
-    human.playing();
-    this.game.data.playerGroup.push( human )
-    this.game.data.playerGroup.push( ai )
+    var me = new Human({name: 'Me', state: this})
+    if(this.game.data.type === "PLAY_WITH_COMPUTER") var player = new AI({name: 'Computer', state: this})
+    else if(this.game.data.type === "PLAY_WITH_HUMAN") var player = new Server({name: 'Someone', state: this})
+    this.game.data.playerGroup.push( me )
+    this.game.data.playerGroup.push( player )
+    this.getCurrentPlayer().playing()
   }
   drawFrame () {
     this.view = {}
@@ -56,6 +61,7 @@ export default class extends Phaser.State {
     this.view.background.height = this.game.height
     this.view.ruleDesc = this.add.text(10, 325,  this.game.data.rule.desc)
     this.view.notifi = this.add.text(10, 345, '')
+    this.view.playerName = this.add.text(620, 10, '')
     initTextFloatLeft([{
       context: this.view.ruleDesc,
       font: this.game.value.font.primary,
@@ -64,6 +70,12 @@ export default class extends Phaser.State {
       smoothed: false
     },  {
       context: this.view.notifi,
+      font: this.game.value.font.primary,
+      fontSize: 15,
+      fill: this.game.value.color.info,
+      smoothed: false
+    },  {
+      context: this.view.playerName,
       font: this.game.value.font.primary,
       fontSize: 15,
       fill: this.game.value.color.info,
@@ -170,7 +182,7 @@ export default class extends Phaser.State {
   }
 
   isWin(){
-    return this.getItemVisiable().list.length === 0
+    return this.getItemVisiable().list.length === 0 
   }
 
   getItemVisiable(){

@@ -1,12 +1,13 @@
-export default class Player {
+import Player from './Player'
+export class Server extends Player {
  
-  constructor ({ name, type , state}) {
-    this.name = name
-    this.type = type
-    this.state = state
-    this.status = {
-        do: Player.status.STOP
-    }
+  constructor (option = {}) {
+    super(option)
+    this.type = 0
+    this.state.game.client.socket.on('sv_select_item', (location)=>{
+      console.log(location)
+      this.state.pickItem(location)
+    })
   }
 //   _onPressItem(location){
 //     console.log("The player who is playing is'nt human")
